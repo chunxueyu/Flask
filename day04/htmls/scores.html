@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>呵呵哒</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url:"/score/",
+                data:{},
+                method:"get",
+                success:function (res) {
+                    //res = JSON.parse(res);
+                    if (res.code == 1){
+                        console.log(res.data);
+                        var $ol = $("#scores");
+                        for (var i=0 ;i < res.data.length;i++) {
+                            var $li = $("<li></li>").html(res.data[i]);
+                            $ol.append($li)
+                        }
+                    } 
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <ol id="scores"></ol>
+</body>
+</html>
