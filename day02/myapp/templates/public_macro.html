@@ -1,0 +1,28 @@
+{% macro fun1(p1) %}
+    {% for i in p1 %}
+        <li>{{ loop.index }}:{{ i }}</li>
+    {% endfor %}
+{% endmacro %}
+
+{% macro fun2(p2) %}
+    {% for i in p2 %}
+        <li style="color: aqua">{{ i }}</li>
+    {% endfor %}
+
+{% endmacro %}
+
+{% macro fun3(p3) %}
+
+    {% for i in p3 %}
+{#        如果是第一个，就颜色便红#}
+        {% if loop.first %}
+            <li style="color: red">{{ i }}</li>
+    {#            最后一个变绿#}
+            {% elif loop.last %}
+                <li style="color: green">{{ i }}</li>
+    {#            其他正常#}
+            {% else %}
+                <li>{{ i }}</li>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

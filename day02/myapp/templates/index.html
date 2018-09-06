@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>不要激动，要淡定</h1>
+{% endblock %}
+
+{% block content %}
+
+    {% macro create_li(params) %}
+{#    代码逻辑#}
+        {% for i in params %}
+            <li>{{ i }}</li>
+        {% endfor %}
+    {% endmacro %}
+{#调用#}
+    {{ create_li(datas) }}
+
+{#    导入外部文件，调用#}
+    {% from "public_macro.html" import fun1,fun2,fun3 %}
+    {{ fun1(datas) }}
+    {{ fun2(datas) }}
+    {{ fun3(datas) }}
+{% endblock %}
