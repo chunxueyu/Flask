@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+{#    <link rel="stylesheet" href="/static/index.css">#}
+    <link rel="stylesheet" href="{{ url_for('static',filename='index.css') }}">
+</head>
+<body>
+    <span>今天又是充满希望的一天</span>
+    <br>
+    <span>欢迎焉有{{ uname }}</span>
+    <br>
+    <a href="{{ url_for('user.logout_api') }}">退出</a>
+    <br>
+    <a href="{{ url_for('user.login_api') }}">登录</a>
+</body>
+</html>
