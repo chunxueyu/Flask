@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script>
+        //添加新闻标题的函数
+        function create_news(data) {
+            $ol = $("#news_contain");
+            for (var i=0;i<data.length;i++){
+                $li = $("<li></li>").html(data[i].title);
+                $ol.append($li);
+            }
+        }
+
+        //点击函数
+        function li_click() {
+            var current_page = $(this).attr("page");
+            $.ajax({
+                url:"/news/",
+                data:{
+                    page:current_page
+                },
+                success:function (res) {
+                    if (res.code == 1){
+                        // 清空新闻内容的子内容
+                        $("#news_contain").empty();
+                        create_news(res.news);
+                    }
+                }
+            })
+        }
+
+        //生成页面的函数
+        $(function () {
+            $.ajax({
+                url:"/news",
+                data:{
+                    page:1
+                },
+                method:"get",
+                success:function (res) {
+                    if (res.code == 1){
+                        $ul = $("ul");
+                        $pre_span = $("<span aria-hidden='true'>&laquo;</span>");
+                        $prev_a = $("<a aria-label='Previous'></a>");
+                        $prev_li = $("<li id='prev'></li>").attr("prev_page", res.prev_num);
+                        $prev_a.append($pre_span);
+                        $prev_li.append($prev_a);
+                        $ul.append($prev_li)
+                        // 循环生成所有的新闻标题
+                        for (var i=0;i<res.page_range.length;i++){
+                            // 把内容添加到a标签里
+                            $page_a = $("<a href ='javascript:return false;' onclick='return false;'></a>").html(res.page_range[i]);
+                            $page_li = $("<li class='p_page'></li>").attr("page", res.page_range[i]);
+                            //添加点击事件
+                            $page_li.click(li_click());
+                            $page_li.append($page_a);
+                            $ul.append($page_li)
+                        }
+                        $next_span = $("<span aria-hidden='true'>&raquo;</span>");
+                        $next_a = $("<a aria-label='Next'></a>");
+                        $next_li = $("<li id='next'></li>").attr("next_page", res.next_num);
+                        $next_a.append($next_span);
+                        $next_li.append($next_a);
+                        $ul.append($next_li);
+                        //新闻数据
+                    }
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+<ol id="news_contain"></ol>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+
+    </ul>
+</nav>
+</body>
+</html>
